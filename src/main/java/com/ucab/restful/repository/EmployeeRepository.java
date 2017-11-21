@@ -1,9 +1,9 @@
-package com.bytestree.restful.repository;
+package com.ucab.restful.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.bytestree.restful.model.Employee;
+import com.ucab.restful.model.Employee;
 /**
  * 
  * @author BytesTree

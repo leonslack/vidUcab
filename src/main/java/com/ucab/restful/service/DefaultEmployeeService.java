@@ -1,4 +1,4 @@
-package com.bytestree.restful.service;
+package com.ucab.restful.service;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bytestree.restful.model.Employee;
-import com.bytestree.restful.repository.EmployeeRepository;
+import com.ucab.restful.model.Employee;
+import com.ucab.restful.repository.EmployeeRepository;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package com.bytestree.restful.controller;
+package com.ucab.restful.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;

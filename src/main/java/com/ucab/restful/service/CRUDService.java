@@ -1,4 +1,4 @@
-package com.bytestree.restful.service;
+package com.ucab.restful.service;
 
 /**
  * @author BytesTree

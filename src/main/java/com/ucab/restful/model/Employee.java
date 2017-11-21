@@ -1,4 +1,4 @@
-package com.bytestree.restful.model;
+package com.ucab.restful.model;
 
 import java.io.Serializable;
 

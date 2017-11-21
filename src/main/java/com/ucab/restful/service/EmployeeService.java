@@ -1,6 +1,6 @@
-package com.bytestree.restful.service;
+package com.ucab.restful.service;
 
-import com.bytestree.restful.model.Employee;
+import com.ucab.restful.model.Employee;
 
 /**
  * 

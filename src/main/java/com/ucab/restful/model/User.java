@@ -1,4 +1,4 @@
-package com.bytestree.restful.model;
+package com.ucab.restful.model;
 
 import java.io.Serializable;
 
@@ -13,8 +13,8 @@ import javax.persistence.Table;
 @Table(name = "[user]")
 public class User  implements Serializable{
 
-	private static final long serialVersionUID = 4293392424585207641L;
-	
+	private static final long serialVersionUID = 8034417743304499377L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
@@ -73,12 +73,12 @@ public class User  implements Serializable{
 		this.lastname = lastname;
 	}
 
-	public String getDesignation() {
+	public String getDriveToken() {
 		return this.driveToken;
 	}
 
-	public void setDesignation(String designation) {
-		this.driveToken = designation;
+	public void setDriveToken(String driveToken) {
+		this.driveToken = driveToken;
 	}
 
 
@@ -86,7 +86,7 @@ public class User  implements Serializable{
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Id: ").append(this.id).append(", firstName: ").append(this.firstname).append(", lastName: ")
-				.append(this.lastname).append(", Designation: ").append(this.driveToken).append(", Salary: ");
+				.append(this.lastname).append(", Token: ").append(this.driveToken);
 		return sb.toString();
 	}
 

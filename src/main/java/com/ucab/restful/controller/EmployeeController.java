@@ -1,4 +1,4 @@
-package com.bytestree.restful.controller;
+package com.ucab.restful.controller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bytestree.restful.model.Employee;
-import com.bytestree.restful.service.EmployeeService;
+import com.ucab.restful.model.Employee;
+import com.ucab.restful.service.EmployeeService;
 
 /**
  * 
