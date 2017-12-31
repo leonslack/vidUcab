@@ -5,6 +5,7 @@ package com.ucab.restful.service;
  */
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -17,7 +18,7 @@ public interface CRUDService<E> {
 
 	E create(E entity) throws CustomBaseException;
 
-	E findById(Serializable id) throws CustomBaseException;
+	E findById(UUID id) throws CustomBaseException;
 
 	List<E> getAll() throws CustomBaseException;
 

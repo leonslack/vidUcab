@@ -2,6 +2,7 @@ package com.ucab.restful.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,9 +32,15 @@ public class UserService  implements IUserService{
 	}
 
 	@Override
-	public User findById(Serializable id) throws CustomBaseException {
-		// TODO Auto-generated method stub
-		return null;
+	public User findById(UUID id) throws CustomBaseException {
+		try {
+			return userRepository.findById(id);
+		} catch (Exception e) {
+			logger.error("Error while trying finding user \n Error: " + e.getMessage());
+			logger.error("User ID:" + id.toString());
+			throw new CustomDataBaseOperationException(
+					"Error while trying to save new User \n Error: " + e.getMessage());
+		}
 	}
 
 	@Override

@@ -38,11 +38,32 @@ public class User  implements Serializable{
 	private String lastName;
 
 	
-	@ApiObjectField(description = "ID of the record", order = 30)
-	private String driveToken;
+	@ApiObjectField(description = "clientid for google auth", order = 30)
+	private String clientid;
+	
+	@ApiObjectField(description = "clientSecret for google auth", order = 35)
+	private String clientSecret;
 	
 	@ApiObjectField(description = "Indicates if the record is active or not", order = 1001)
 	private boolean isActive = true;
+
+	@Column(name = "clientid")
+	public String getClientid() {
+		return clientid;
+	}
+
+	public void setClientid(String clientid) {
+		this.clientid = clientid;
+	}
+
+	@Column(name = "clientsecret")
+	public String getClientSecret() {
+		return clientSecret;
+	}
+
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
+	}
 
 	@Id
 	@Type(type = "pg-uuid")
@@ -84,21 +105,13 @@ public class User  implements Serializable{
 		this.isActive = isActive;
 	}
 
-	@Column(name = "drivetoken")
-	public String getDriveToken() {
-		return this.driveToken;
-	}
-
-	public void setDriveToken(String driveToken) {
-		this.driveToken = driveToken;
-	}
 
 
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Id: ").append(this.id).append(", firstName: ").append(this.firstName).append(", lastName: ")
-				.append(this.lastName).append(", Token: ").append(this.driveToken);
+				.append(this.lastName).append(", Token: ").append(this.clientid);
 		return sb.toString();
 	}
 

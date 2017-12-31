@@ -1,7 +1,10 @@
 package com.ucab.restful.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.data.model.User;
 import com.ucab.restful.data.predicates.UserPredicates;
+import com.ucab.restful.service.IGoogleService;
 import com.ucab.restful.service.IUserService;
 
 @RestController
@@ -30,11 +34,14 @@ public class UserController {
 	final static Logger logger = Logger.getLogger(UserController.class);
 	
 	private IUserService userService;
+	
+	private IGoogleService googleService;
 
 	@Autowired
-	public UserController(IUserService userService) {
+	public UserController(IUserService userService,IGoogleService googleService) {
 		super();
 		this.userService = userService;
+		this.googleService = googleService;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -43,6 +50,21 @@ public class UserController {
 		logger.debug("Added:: " + newUser);
 
 		return ResponseEntity.status(HttpStatus.OK).body(newUser);
+	}
+	
+	@RequestMapping(value="/drive/{id}",method = RequestMethod.GET)
+	public ResponseEntity<List<String>> getNameFiles(@PathVariable("id") UUID id) throws CustomBaseException, IOException {
+		List<String> result = new LinkedList<>();
+		
+		User user = userService.findById(id);
+		if (user == null) {
+			logger.debug("User with id " + id + " does not exists");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		result = googleService.fileNames(user);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
@@ -58,14 +80,14 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<User> getUser(@PathVariable("id") Long id) throws CustomBaseException {
-		User User = userService.findById(id);
-		if (User == null) {
+	public ResponseEntity<User> getUser(@PathVariable("id") UUID id) throws CustomBaseException {
+		User user = userService.findById(id);
+		if (user == null) {
 			logger.debug("User with id " + id + " does not exists");
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
-		logger.debug("Found User:: " + User);
-		return new ResponseEntity<User>(User, HttpStatus.OK);
+		logger.debug("Found User: " + user);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -82,7 +104,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) throws CustomBaseException {
+	public ResponseEntity<Void> deleteUser(@PathVariable("id") UUID id) throws CustomBaseException {
 		User User = userService.findById(id);
 		if (User == null) {
 			logger.debug("User with id " + id + " does not exists");
