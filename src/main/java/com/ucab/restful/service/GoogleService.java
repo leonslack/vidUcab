@@ -102,7 +102,6 @@ public class GoogleService implements IGoogleService {
 
         // Print the names and IDs for up to 10 files.
         FileList result = service.files().list()
-             .setPageSize(10)
              .setFields("nextPageToken, files(id, name)")
              .execute();
         List<File> files = result.getFiles();
@@ -110,7 +109,7 @@ public class GoogleService implements IGoogleService {
         	return response;
         } else {
             for (File file : files) {
-            	response.add(file.getName());
+            	response.add(file.getFullFileExtension());
             }
         }
     

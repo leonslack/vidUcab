@@ -1,35 +1,32 @@
 package com.ucab.restful.data.model;
 
-import java.io.Serializable;
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.Where;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 import org.jsondoc.core.pojo.ApiStage;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.querydsl.core.annotations.PropertyType;
+import com.querydsl.core.annotations.QueryType;
+
 @Entity
 @Table(name = "[User]")
-@Where(clause ="is_active = true")
 @ApiObject(name = "User", group = "User", stage = ApiStage.RC)
-public class User  implements Serializable{
+public class User  extends BaseModel{
 
-	private static final long serialVersionUID = 8034417743304499377L;
+	@QueryType(PropertyType.NONE)
+	@JsonIgnore
+	private static final long serialVersionUID = 4382596676123064009L;
 
-	
-	@ApiObjectField(description = "ID of the record", order = 1000,required = false)
-	private UUID id;
-
-	
 	@ApiObjectField(description = "First Name of User", order = 10,required = true)
 	private String firstName;
 
@@ -44,8 +41,17 @@ public class User  implements Serializable{
 	@ApiObjectField(description = "clientSecret for google auth", order = 35)
 	private String clientSecret;
 	
-	@ApiObjectField(description = "Indicates if the record is active or not", order = 1001)
-	private boolean isActive = true;
+	@ApiObjectField(description = "Set of videos", order = 40)
+	private Set<Video> videos = new HashSet<>();
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="owner",cascade = CascadeType.ALL)
+	public Set<Video> getVideos() {
+		return videos;
+	}
+
+	public void setVideos(Set<Video> videos) {
+		this.videos = videos;
+	}
 
 	@Column(name = "clientid")
 	public String getClientid() {
@@ -63,19 +69,6 @@ public class User  implements Serializable{
 
 	public void setClientSecret(String clientSecret) {
 		this.clientSecret = clientSecret;
-	}
-
-	@Id
-	@Type(type = "pg-uuid")
-	@GeneratedValue(generator = "uuid-gen",strategy = GenerationType.IDENTITY)
-	@GenericGenerator(name = "uuid-gen", strategy = "uuid2")
-	@Column(name = "ID", unique = true, nullable = false)
-	public UUID getId() {
-		return this.id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
 	}
 
 	@Column(name = "firstname", length = 50)
@@ -96,38 +89,14 @@ public class User  implements Serializable{
 		this.lastName = lastname;
 	}
 
-	@Column(name = "is_active", nullable = false)
-	public boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
 
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("Id: ").append(this.id).append(", firstName: ").append(this.firstName).append(", lastName: ")
-				.append(this.lastName).append(", Token: ").append(this.clientid);
-		return sb.toString();
+		return "User : [" + (firstName != null ? "first name=" + firstName + ", \n" : "")
+		+ (lastName != null ? "last Name=" + lastName + ", \n" : "")
+		+ (super.toString() != null ? "toString()=" + super.toString() : "") + "]";
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (id == null || obj == null || getClass() != obj.getClass())
-			return false;
-		User toCompare = (User) obj;
-		return id.equals(toCompare.id);
-	}
-
-	@Override
-	public int hashCode() {
-		return id == null ? 0 : id.hashCode();
-	}
 
 }
