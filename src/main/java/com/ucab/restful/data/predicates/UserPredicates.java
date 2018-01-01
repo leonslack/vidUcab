@@ -23,5 +23,9 @@ public class UserPredicates {
 
 		return user.isActive.eq(true);
 	}
+	
+	public static Predicate nickNameEquals(String nickname) {
+		return user.nickname.eq(nickname);
+	}
 
 }

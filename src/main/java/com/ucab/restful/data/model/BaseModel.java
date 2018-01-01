@@ -1,7 +1,8 @@
 package com.ucab.restful.data.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -40,7 +41,7 @@ public abstract class BaseModel implements Serializable{
 	
 	@ApiObjectField(description = "When the record was created", order = 1004)
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
-	private LocalDateTime createdAt;
+	private Timestamp createdAt;
 	
 	public BaseModel() {
 
@@ -88,17 +89,17 @@ public abstract class BaseModel implements Serializable{
 	
 	@CreatedDate
 	@Column(name = "created_at", updatable = false)
-	public LocalDateTime getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 	
 	@PrePersist
 	void onCreate() {
-		LocalDateTime currentDate = LocalDateTime.now();
+		Timestamp currentDate = Timestamp.from(Instant.now());
 		setCreatedAt(currentDate);
 	}
 	

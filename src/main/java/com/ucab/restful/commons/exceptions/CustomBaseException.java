@@ -33,7 +33,4 @@ public abstract class CustomBaseException extends Exception{
 	public String getCode() {
 		return code;
 	}
-
-
-
 }

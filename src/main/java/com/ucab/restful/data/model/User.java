@@ -26,15 +26,16 @@ public class User  extends BaseModel{
 	@QueryType(PropertyType.NONE)
 	@JsonIgnore
 	private static final long serialVersionUID = 4382596676123064009L;
+	
+	@ApiObjectField(description = "nickname of User (unique)", order = 10,required = true)
+	private String nickname;
 
 	@ApiObjectField(description = "First Name of User", order = 10,required = true)
 	private String firstName;
 
-	
 	@ApiObjectField(description = "Last Name of User", order = 20,required = true)
 	private String lastName;
 
-	
 	@ApiObjectField(description = "clientid for google auth", order = 30)
 	private String clientid;
 	
@@ -43,6 +44,15 @@ public class User  extends BaseModel{
 	
 	@ApiObjectField(description = "Set of videos", order = 40)
 	private Set<Video> videos = new HashSet<>();
+
+	@Column(name = "nickname",unique=true)
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="owner",cascade = CascadeType.ALL)
 	public Set<Video> getVideos() {

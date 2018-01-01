@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
+import com.ucab.restful.commons.exceptions.CustomAlreadyExistsException;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.commons.exceptions.CustomDataBaseOperationException;
 import com.ucab.restful.data.model.User;
+import com.ucab.restful.data.predicates.UserPredicates;
 import com.ucab.restful.repository.UserRepository;
 
 @Service("IUserService")
@@ -21,11 +23,25 @@ public class UserService  implements IUserService{
 
 	@Override
 	public User create(User entity) throws CustomBaseException {
+		User aux = findByNickname(entity.getNickname());
+		if(aux != null) {
+			throw new CustomAlreadyExistsException("This nickname is already in use:"+entity.getNickname());
+		}
 		try {
 			return userRepository.save(entity);
 		} catch (Exception e) {
 			logger.error("Error while trying to save new User \n Error: " + e.getMessage());
 			logger.error("User info:" + entity.toString());
+			throw new CustomDataBaseOperationException(
+					"Error while trying to save new User \n Error: " + e.getMessage());
+		}
+	}
+	
+	private User findByNickname(String nick) throws CustomBaseException{
+		try {
+			return userRepository.findOne(UserPredicates.nickNameEquals(nick));
+		} catch (Exception e) {
+			logger.error("Error while trying finding user \n Error: " + e.getMessage());
 			throw new CustomDataBaseOperationException(
 					"Error while trying to save new User \n Error: " + e.getMessage());
 		}
