@@ -1,5 +1,9 @@
 package com.ucab.restful.repository;
 
-public interface NotificationRepository {
+import java.util.UUID;
+
+import com.ucab.restful.data.model.Notification;
+
+public interface NotificationRepository extends CustomBaseJpaRepository<Notification, UUID>{
 
 }
