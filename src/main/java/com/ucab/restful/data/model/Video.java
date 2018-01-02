@@ -34,6 +34,18 @@ public class Video extends BaseModel{
 	@ApiObjectField(description = "description of video", order = 30)
 	private String description;
 	
+	@ApiObjectField(description = "link of video", order = 40)
+	private String link;
+	
+	@Column(name = "link")
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
 	@Column(name = "tittle")
 	public String getTittle() {
 		return tittle;
