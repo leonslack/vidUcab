@@ -43,6 +43,9 @@ public abstract class BaseModel implements Serializable{
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	private Timestamp createdAt;
 	
+	@JsonIgnore
+	public static final String _createdAt = "createdAt";
+	
 	public BaseModel() {
 
 	}

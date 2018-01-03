@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
@@ -55,14 +57,19 @@ public class UserService  implements IUserService{
 			logger.error("Error while trying finding user \n Error: " + e.getMessage());
 			logger.error("User ID:" + id.toString());
 			throw new CustomDataBaseOperationException(
-					"Error while trying to save new User \n Error: " + e.getMessage());
+					"Error while trying to find User \n Error: " + e.getMessage());
 		}
 	}
 
 	@Override
-	public List<User> getAll() throws CustomBaseException {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<User> getAll(Pageable pageable, Predicate predicate) throws CustomBaseException {
+		try {
+			return userRepository.findAll(predicate, pageable);
+		} catch (Exception e) {
+			logger.error("Error while trying find users \n Error: " + e.getMessage());
+			throw new CustomDataBaseOperationException(
+					"Error while trying to save new User \n Error: " + e.getMessage());
+		}
 	}
 
 	@Override

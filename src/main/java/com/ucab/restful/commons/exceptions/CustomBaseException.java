@@ -2,12 +2,14 @@ package com.ucab.restful.commons.exceptions;
 
 import org.springframework.http.HttpStatus;
 
+import com.ucab.restful.commons.enums.CustomResponseCode;
+
 public abstract class CustomBaseException extends Exception{
 
 	private static final long serialVersionUID = -6618697964649691337L;
 	
 	private HttpStatus httpStatus;
-	protected String code;
+	protected CustomResponseCode code;
 	private String[] messages;
 	
 	public String[] getMessages() {
@@ -30,7 +32,7 @@ public abstract class CustomBaseException extends Exception{
 		this.httpStatus = httpStatus;
 	}
 
-	public String getCode() {
+	public CustomResponseCode getCode() {
 		return code;
 	}
 }

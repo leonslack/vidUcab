@@ -1,7 +1,6 @@
 package com.ucab.restful.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +10,10 @@ import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.pojo.ApiStage;
 import org.jsondoc.core.pojo.ApiVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.data.model.User;
 import com.ucab.restful.data.predicates.UserPredicates;
+import com.ucab.restful.dto.response.PagedResponseStructure;
 import com.ucab.restful.service.IGoogleService;
 import com.ucab.restful.service.IUserService;
 
@@ -91,16 +95,22 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<User>> getAllUsers(
-			@RequestParam(value = "keyword", defaultValue = "") final String keyword) throws CustomBaseException {
-		List<User> Users = userService.findAllUsers(UserPredicates.recordContains(keyword));
-		if (Users.isEmpty()) {
+	public ResponseEntity<PagedResponseStructure<User>> getAllUsers(
+			@RequestParam(value = "keyword", defaultValue = "") final String keyword,
+			@PageableDefault(page = 0, size = Integer.MAX_VALUE, sort = { 
+					User._createdAt }, direction = Sort.Direction.DESC) Pageable pageable) throws CustomBaseException {
+		
+		PagedResponseStructure<User> response = new PagedResponseStructure<>();
+		
+		Page<User> users = userService.getAll(pageable, UserPredicates.recordContains(keyword));
+		
+		response.setData(users);
+		if (users.getContent() == null ||users.getContent().isEmpty()) {
 			logger.debug("Users does not exists");
-			return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<PagedResponseStructure<User>>(HttpStatus.NO_CONTENT);
 		}
-		logger.debug("Found " + Users.size() + " Users");
-		logger.debug(Arrays.toString(Users.toArray()));
-		return new ResponseEntity<List<User>>(Users, HttpStatus.OK);
+		logger.debug("Found " + users.getSize() + " Users");
+		return new ResponseEntity<PagedResponseStructure<User>>(response, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
