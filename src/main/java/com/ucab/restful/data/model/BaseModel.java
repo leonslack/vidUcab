@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -34,6 +35,7 @@ public abstract class BaseModel implements Serializable{
 	private static final long serialVersionUID = -5488708916335056758L;
 	
 	@ApiObjectField(description = "ID of the record", order = 1000,required = false)
+	@NotNull
 	private UUID id;
 	
 	@ApiObjectField(description = "Indicates if the record is active or not", order = 1001)

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
@@ -28,6 +29,7 @@ public class User  extends BaseModel{
 	private static final long serialVersionUID = 4382596676123064009L;
 	
 	@ApiObjectField(description = "nickname of User (unique)", order = 10,required = true)
+	@NotNull
 	private String nickname;
 
 	@ApiObjectField(description = "First Name of User", order = 10,required = true)
@@ -44,6 +46,30 @@ public class User  extends BaseModel{
 	
 	@ApiObjectField(description = "Set of videos", order = 40)
 	private Set<Video> videos = new HashSet<>();
+	
+	@ApiObjectField(description = "Set of subscribers", order = 50)
+	private Set<Subscription> subscribers = new HashSet<>();
+	
+	@ApiObjectField(description = "Set of my subscriptions", order = 60)
+	private Set<Subscription> channels = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="subscriber",cascade = CascadeType.ALL)
+	public Set<Subscription> getChannels() {
+		return channels;
+	}
+
+	public void setChannels(Set<Subscription> channels) {
+		this.channels = channels;
+	}
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="owner",cascade = CascadeType.ALL)
+	public Set<Subscription> getSubscribers() {
+		return subscribers;
+	}
+
+	public void setSubscribers(Set<Subscription> subscribers) {
+		this.subscribers = subscribers;
+	}
 
 	@Column(name = "nickname",unique=true)
 	public String getNickname() {

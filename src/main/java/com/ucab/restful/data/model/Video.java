@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
@@ -26,6 +27,7 @@ public class Video extends BaseModel{
 	private static final long serialVersionUID = -1863217112101585347L;
 	
 	@ApiObjectField(description = "owner of video", order = 10)
+	@NotNull
 	private User owner;
 	
 	@ApiObjectField(description = "tittle of video", order = 20)
@@ -35,6 +37,7 @@ public class Video extends BaseModel{
 	private String description;
 	
 	@ApiObjectField(description = "link of video", order = 40)
+	@NotNull
 	private String link;
 	
 	@Column(name = "link")
