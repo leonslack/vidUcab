@@ -1,7 +1,6 @@
 package com.ucab.restful.data.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -33,10 +32,6 @@ public class Privacy extends BaseModel{
 	@ApiObjectField(description = "video", order = 20)
 	@NotNull
 	private Video video;
-	
-	@ApiObjectField(description = "Can see the video", order = 30)
-	@NotNull
-	private Boolean canSee;
 
 	@ManyToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="subscriber_id", nullable = false)
@@ -57,18 +52,6 @@ public class Privacy extends BaseModel{
 	public void setVideo(Video video) {
 		this.video = video;
 	}
-
-	@Column(name = "can_see")
-	public Boolean getCanSee() {
-		return canSee;
-	}
-
-	public void setCanSee(Boolean canSee) {
-		this.canSee = canSee;
-	}
-	
-	
-	
 	
 
 }

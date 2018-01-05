@@ -3,6 +3,8 @@ package com.ucab.restful.data.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +18,7 @@ import org.jsondoc.core.pojo.ApiStage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.PropertyType;
 import com.querydsl.core.annotations.QueryType;
+import com.ucab.restful.commons.enums.PrivacyType;
 
 @Entity
 @Table(name = "[Video]")
@@ -40,6 +43,20 @@ public class Video extends BaseModel{
 	@NotNull
 	private String link;
 	
+	@ApiObjectField(description = "type of privacy", order = 50)
+	private PrivacyType privacyType;
+	
+	
+	@Column(name = "privacy_type")
+	@Enumerated(EnumType.STRING)
+	public PrivacyType getPrivacyType() {
+		return privacyType;
+	}
+
+	public void setPrivacyType(PrivacyType privacyType) {
+		this.privacyType = privacyType;
+	}
+
 	@Column(name = "link")
 	public String getLink() {
 		return link;
