@@ -89,7 +89,7 @@ public class User  extends BaseModel{
 		this.videos = videos;
 	}
 
-	@Column(name = "clientId")
+	@Column(name = "client_id")
 	public String getClientid() {
 		return clientId;
 	}
