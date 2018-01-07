@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,7 @@ public class UserController {
 		this.googleService = googleService;
 	}
 	
+	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<User> addUser(@RequestBody User newUser) throws CustomBaseException {
 		newUser = userService.create(newUser);
@@ -56,6 +58,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(newUser);
 	}
 	
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/drive/{id}",method = RequestMethod.GET)
 	public ResponseEntity<List<String>> getNameFiles(@PathVariable("id") UUID id) throws CustomBaseException, IOException {
 		List<String> result = new LinkedList<>();
@@ -71,6 +74,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
+	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<Void> updateUser(@RequestBody User newUser) throws CustomBaseException {
 		User existingEmp = userService.findById(newUser.getId());
@@ -83,6 +87,7 @@ public class UserController {
 		}
 	}
 
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<User> getUser(@PathVariable("id") UUID id) throws CustomBaseException {
 		User user = userService.findById(id);
@@ -94,6 +99,7 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
+	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<PagedResponseStructure<User>> getAllUsers(
 			@RequestParam(value = "keyword", defaultValue = "") final String keyword,
@@ -113,6 +119,7 @@ public class UserController {
 		return new ResponseEntity<PagedResponseStructure<User>>(response, HttpStatus.OK);
 	}
 
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteUser(@PathVariable("id") UUID id) throws CustomBaseException {
 		User User = userService.findById(id);

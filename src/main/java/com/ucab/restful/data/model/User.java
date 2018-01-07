@@ -39,7 +39,7 @@ public class User  extends BaseModel{
 	private String lastName;
 
 	@ApiObjectField(description = "clientid for google auth", order = 30)
-	private String clientid;
+	private String clientId;
 	
 	@ApiObjectField(description = "clientSecret for google auth", order = 35)
 	private String clientSecret;
@@ -89,13 +89,13 @@ public class User  extends BaseModel{
 		this.videos = videos;
 	}
 
-	@Column(name = "clientid")
+	@Column(name = "clientId")
 	public String getClientid() {
-		return clientid;
+		return clientId;
 	}
 
 	public void setClientid(String clientid) {
-		this.clientid = clientid;
+		this.clientId = clientid;
 	}
 
 	@Column(name = "clientsecret")

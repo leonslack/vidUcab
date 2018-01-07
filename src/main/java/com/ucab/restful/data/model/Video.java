@@ -33,8 +33,8 @@ public class Video extends BaseModel{
 	@NotNull
 	private User owner;
 	
-	@ApiObjectField(description = "tittle of video", order = 20)
-	private String tittle;
+	@ApiObjectField(description = "title of video", order = 20)
+	private String title;
 
 	@ApiObjectField(description = "description of video", order = 30)
 	private String description;
@@ -66,13 +66,13 @@ public class Video extends BaseModel{
 		this.link = link;
 	}
 
-	@Column(name = "tittle")
+	@Column(name = "title")
 	public String getTittle() {
-		return tittle;
+		return title;
 	}
 
 	public void setTittle(String tittle) {
-		this.tittle = tittle;
+		this.title = tittle;
 	}
 
 	@Column(name = "description")
