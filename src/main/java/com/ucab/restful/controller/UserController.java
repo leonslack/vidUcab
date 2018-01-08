@@ -5,7 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.pojo.ApiStage;
 import org.jsondoc.core.pojo.ApiVisibility;
@@ -36,7 +37,7 @@ import com.ucab.restful.service.IUserService;
 @Api(name = "User Services", description = "Services to manage Users", visibility = ApiVisibility.PUBLIC, stage = ApiStage.ALPHA)
 public class UserController {
 	
-	final static Logger logger = Logger.getLogger(UserController.class);
+	 Logger logger = LogManager.getLogger();
 	
 	private IUserService userService;
 	
@@ -113,10 +114,11 @@ public class UserController {
 		response.setData(users);
 		if (users.getContent() == null ||users.getContent().isEmpty()) {
 			logger.debug("Users does not exists");
-			return new ResponseEntity<PagedResponseStructure<User>>(HttpStatus.NO_CONTENT);
+			
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
 		logger.debug("Found " + users.getSize() + " Users");
-		return new ResponseEntity<PagedResponseStructure<User>>(response, HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
 	@CrossOrigin(origins = "*")

@@ -1,14 +1,16 @@
 package com.ucab.restful.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+import java.util.UUID;
 
-import com.querydsl.core.types.Predicate;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
+import com.ucab.restful.data.model.Subscription;
 import com.ucab.restful.data.model.User;
 
 public interface ISubscriptionService {
 	
-	Page<User> getUserByRelation(Pageable pageable, Predicate predicate) throws CustomBaseException;
+	List<User> getUserByRelation(UUID userId, Boolean subs) throws CustomBaseException;
+	
+	Subscription createSubscription(Subscription subscription) throws CustomBaseException;
 
 }

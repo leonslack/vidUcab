@@ -32,8 +32,8 @@ public class UserService  implements IUserService{
 		try {
 			return userRepository.save(entity);
 		} catch (Exception e) {
-			logger.error("Error while trying to save new User \n Error: " + e.getMessage());
-			logger.error("User info:" + entity.toString());
+			log.error("Error while trying to save new User \n Error: " + e.getMessage());
+			log.error("User info:" + entity.toString());
 			throw new CustomDataBaseOperationException(
 					"Error while trying to save new User \n Error: " + e.getMessage());
 		}
@@ -43,7 +43,7 @@ public class UserService  implements IUserService{
 		try {
 			return userRepository.findOne(UserPredicates.nickNameEquals(nick));
 		} catch (Exception e) {
-			logger.error("Error while trying finding user \n Error: " + e.getMessage());
+			log.error("Error while trying finding user \n Error: " + e.getMessage());
 			throw new CustomDataBaseOperationException(
 					"Error while trying to save new User \n Error: " + e.getMessage());
 		}
@@ -54,8 +54,8 @@ public class UserService  implements IUserService{
 		try {
 			return userRepository.findById(id);
 		} catch (Exception e) {
-			logger.error("Error while trying finding user \n Error: " + e.getMessage());
-			logger.error("User ID:" + id.toString());
+			log.error("Error while trying finding user \n Error: " + e.getMessage());
+			log.error("User ID:" + id.toString());
 			throw new CustomDataBaseOperationException(
 					"Error while trying to find User \n Error: " + e.getMessage());
 		}
@@ -66,7 +66,7 @@ public class UserService  implements IUserService{
 		try {
 			return userRepository.findAll(predicate, pageable);
 		} catch (Exception e) {
-			logger.error("Error while trying find users \n Error: " + e.getMessage());
+			log.error("Error while trying find users \n Error: " + e.getMessage());
 			throw new CustomDataBaseOperationException(
 					"Error while trying to save new User \n Error: " + e.getMessage());
 		}
