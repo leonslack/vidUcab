@@ -38,7 +38,7 @@ import com.ucab.restful.service.IUserService;
 @Api(name = "User Services", description = "Services to manage Users", visibility = ApiVisibility.PUBLIC, stage = ApiStage.ALPHA)
 public class UserController {
 	
-	 Logger logger = LogManager.getLogger();
+	Logger logger = LogManager.getLogger();
 	
 	private IUserService userService;
 	

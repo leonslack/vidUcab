@@ -17,5 +17,11 @@ public class VideoPredicates {
 	public static Predicate myVideos(UUID ownerId) {
 		return QVideo.video.owner.id.eq(ownerId);
 	}
+	
+	public static Predicate publicVideos(UUID ownerId) {
+		
+		return QVideo.video.privacyType.eq(PrivacyType.PUBLIC).and(QVideo.video.owner.id.eq(ownerId));
+		
+	}
 
 }

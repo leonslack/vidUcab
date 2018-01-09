@@ -31,9 +31,9 @@ import com.ucab.restful.service.ISubscriptionService;
 @RequestMapping("/subscriptions")
 @Api(name = "Subscription Services", description = "Services to manage Subscription", visibility = ApiVisibility.PUBLIC, stage = ApiStage.ALPHA)
 public class SubscriptionController {
-	
+
 	Logger logger = LogManager.getLogger();
-	
+
 	private ISubscriptionService subscriptionService;
 
 	@Autowired
@@ -41,57 +41,56 @@ public class SubscriptionController {
 		super();
 		this.subscriptionService = subscriptionService;
 	}
-	
+
 	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.POST)
 	@ApiMethod(description = "Cretate a new subscription", summary = "CREATE SUBSCRIPTION")
-	public ResponseEntity<SimpleResponseStructure<Subscription>> addSubcription(@RequestBody Subscription subscription) throws CustomBaseException {
+	public ResponseEntity<SimpleResponseStructure<Subscription>> addSubcription(@RequestBody Subscription subscription)
+			throws CustomBaseException {
 		subscription = subscriptionService.createSubscription(subscription);
-		
+
 		SimpleResponseStructure<Subscription> response = new SimpleResponseStructure<>();
-		
+
 		response.setData(subscription);
 		logger.debug("Added:: " + subscription);
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value="/unsubscribe",method = RequestMethod.POST)
+	@RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
 	@ApiMethod(description = "Cretate a new subscription", summary = "DELETE SUBSCRIPTION")
-	public ResponseEntity<SimpleResponseStructure<String>> deleteSubscription(@RequestBody Subscription subscription) throws CustomBaseException {
-		
-		
-		
+	public ResponseEntity<SimpleResponseStructure<String>> deleteSubscription(@RequestBody Subscription subscription)
+			throws CustomBaseException {
+
 		SimpleResponseStructure<String> response = new SimpleResponseStructure<>();
-		
+
 		response.setData(subscriptionService.deleteSubscription(subscription));
 		logger.debug("removed subscription");
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value="/{userId}",method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	@ApiMethod(description = "Retrieves an list with, subscribers or channels, depends boolean 'subs'", summary = "GET SUBCRIPTIONS")
 	public ResponseEntity<SimpleResponseStructure<List<User>>> getSubscriptions(
-			@RequestParam(value = "subs", defaultValue = "") final Boolean subs,
-			@PathVariable("userId") @ApiPathParam(name = "userId", description = "The ID of the client") UUID userId) throws CustomBaseException {
-		
+			@RequestParam(value = "subs") @ApiPathParam(name = "subs", description = "boolean, true in case list subscribers, false in case list my 			subscriptions") final Boolean subs,
+			@PathVariable("userId") @ApiPathParam(name = "userId", description = "The ID of the client") UUID userId)
+			throws CustomBaseException {
+
 		SimpleResponseStructure<List<User>> response = new SimpleResponseStructure<>();
-		
+
 		List<User> users = subscriptionService.getUserByRelation(userId, subs);
-		
+
 		response.setData(users);
-		if (users == null ||users.isEmpty()) {
+		if (users == null || users.isEmpty()) {
 			logger.debug("Users does not exists");
-			
+
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
 		logger.debug("Found " + users.size() + " Users");
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
-	
 
 }
