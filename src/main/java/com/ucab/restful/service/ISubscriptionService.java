@@ -12,5 +12,7 @@ public interface ISubscriptionService {
 	List<User> getUserByRelation(UUID userId, Boolean subs) throws CustomBaseException;
 	
 	Subscription createSubscription(Subscription subscription) throws CustomBaseException;
+	
+	String deleteSubscription(Subscription subcription) throws CustomBaseException;
 
 }

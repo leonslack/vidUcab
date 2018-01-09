@@ -8,10 +8,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.core.types.Predicate;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.commons.exceptions.CustomDataBaseOperationException;
 import com.ucab.restful.data.model.Subscription;
 import com.ucab.restful.data.model.User;
+import com.ucab.restful.data.predicates.SubscriptionPredicates;
 import com.ucab.restful.repository.SubscriptionRepository;
 
 @Service("ISubscriptionService")
@@ -41,6 +43,29 @@ public class SubscriptionService implements ISubscriptionService {
 			log.error("Error while trying save subscription  \n Error: " + e.getMessage());
 			throw new CustomDataBaseOperationException(
 					"Error while trying save subscription users \n Error: " + e.getMessage());
+		}
+	}
+	
+	private Subscription findToDelete(Predicate predicate) throws CustomBaseException{
+		try {
+			return subscriptionRepository.findOne(predicate);
+		} catch (Exception e) {
+			log.error("Error while trying save subscription  \n Error: " + e.getMessage());
+			throw new CustomDataBaseOperationException(
+					"Error while trying save subscription users \n Error: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public String deleteSubscription(Subscription subcription) throws CustomBaseException {
+		subcription = findToDelete(SubscriptionPredicates.usersIdEq(subcription.getOwner().getId(), subcription.getSubscriber().getId()));
+		try {
+			subscriptionRepository.delete(subcription);
+			return "Deleted";
+		} catch (Exception e) {
+			log.error("Error while trying deletesave subscription  \n Error: " + e.getMessage());
+			throw new CustomDataBaseOperationException(
+					"Error while trying delete subscription users \n Error: " + e.getMessage());
 		}
 	}
 

@@ -29,6 +29,7 @@ import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.data.model.User;
 import com.ucab.restful.data.predicates.UserPredicates;
 import com.ucab.restful.dto.response.PagedResponseStructure;
+import com.ucab.restful.dto.response.SimpleResponseStructure;
 import com.ucab.restful.service.IGoogleService;
 import com.ucab.restful.service.IUserService;
 
@@ -52,11 +53,15 @@ public class UserController {
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<User> addUser(@RequestBody User newUser) throws CustomBaseException {
+	public ResponseEntity<SimpleResponseStructure<User>> addUser(@RequestBody User newUser) throws CustomBaseException {
+		
+		SimpleResponseStructure<User> response = new SimpleResponseStructure<>();
+		
 		newUser = userService.create(newUser);
 		logger.debug("Added:: " + newUser);
 
-		return ResponseEntity.status(HttpStatus.OK).body(newUser);
+		response.setData(newUser);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
 	@CrossOrigin(origins = "*")
