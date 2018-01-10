@@ -1,34 +1,25 @@
 package com.ucab.restful.controller;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
-import org.jsondoc.core.annotation.ApiPathParam;
-import org.jsondoc.core.annotation.ApiQueryParam;
 import org.jsondoc.core.pojo.ApiStage;
 import org.jsondoc.core.pojo.ApiVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.data.model.Subscription;
-import com.ucab.restful.data.model.User;
 import com.ucab.restful.dto.response.SimpleResponseStructure;
 import com.ucab.restful.service.ISubscriptionService;
 
 @RestController
-@RequestMapping("/subscriptions")
 @Api(name = "Subscription Services", description = "Services to manage Subscription", visibility = ApiVisibility.PUBLIC, stage = ApiStage.ALPHA)
 public class SubscriptionController extends CustomBaseController{
 
@@ -43,7 +34,7 @@ public class SubscriptionController extends CustomBaseController{
 	}
 
 	@CrossOrigin(origins = "*")
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value="/subscribe",method = RequestMethod.POST)
 	@ApiMethod(description = "Cretate a new subscription", summary = "CREATE SUBSCRIPTION")
 	public ResponseEntity<SimpleResponseStructure<Subscription>> addSubcription(@RequestBody Subscription subscription)
 			throws CustomBaseException {
@@ -71,26 +62,5 @@ public class SubscriptionController extends CustomBaseController{
 		return ResponseEntity.ok(response);
 	}
 
-	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	@ApiMethod(description = "Retrieves an list with, subscribers or channels, depends boolean 'subs'", summary = "GET SUBCRIPTIONS")
-	public ResponseEntity<SimpleResponseStructure<List<User>>> getSubscriptions(
-			@RequestParam(value = "subs") @ApiQueryParam(name = "subs", description = "boolean, true in case list subscribers, false in case list my 	subscriptions") final Boolean subs,
-			@PathVariable("userId") @ApiPathParam(name = "userId", description = "The ID of the client") UUID userId)
-			throws CustomBaseException {
-
-		SimpleResponseStructure<List<User>> response = new SimpleResponseStructure<>();
-
-		List<User> users = subscriptionService.getUserByRelation(userId, subs);
-
-		response.setData(users);
-		if (users == null || users.isEmpty()) {
-			logger.debug("Users does not exists");
-
-			return ResponseEntity.ok(response);
-		}
-		logger.debug("Found " + users.size() + " Users");
-		return ResponseEntity.ok(response);
-	}
 
 }
