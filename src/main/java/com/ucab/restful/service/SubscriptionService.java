@@ -20,9 +20,9 @@ import com.ucab.restful.repository.SubscriptionRepository;
 public class SubscriptionService implements ISubscriptionService {
 	
 	@Autowired
-	SubscriptionRepository subscriptionRepository;
+	private SubscriptionRepository subscriptionRepository;
 	
-	Logger log = LogManager.getLogger();
+	final static Logger log = LogManager.getLogger();
 
 	@Override
 	public List<User> getUserByRelation(UUID userId, Boolean subs) throws CustomBaseException {

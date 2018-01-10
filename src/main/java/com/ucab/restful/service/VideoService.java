@@ -20,7 +20,7 @@ public class VideoService implements IVideoService{
 	@Autowired
 	VideoRepository videoRepository;
 	
-	Logger log = LogManager.getLogger();
+	final static Logger log = LogManager.getLogger();
 
 	@Override
 	public Video createVideo(Video video) throws CustomBaseException {

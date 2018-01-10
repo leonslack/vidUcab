@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,8 @@ public class UserService  implements IUserService{
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	final static Logger log = LogManager.getLogger();
 
 	@Override
 	public User create(User entity) throws CustomBaseException {
