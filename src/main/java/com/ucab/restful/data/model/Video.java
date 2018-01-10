@@ -1,6 +1,7 @@
 package com.ucab.restful.data.model;
 
-import javax.persistence.CascadeType;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -46,7 +48,30 @@ public class Video extends BaseModel{
 	@ApiObjectField(description = "type of privacy", order = 50)
 	private PrivacyType privacyType;
 	
+	@ApiObjectField(description = "id of video in google", order = 60)
+	private String googleId;
 	
+	private Set<Privacy> privacy;
+	
+	@OneToMany(mappedBy = "video", fetch = FetchType.LAZY)
+	@JsonIgnore
+	public Set<Privacy> getPrivacy() {
+		return privacy;
+	}
+
+	public void setPrivacy(Set<Privacy> privacy) {
+		this.privacy = privacy;
+	}
+
+	@Column(name = "google_id")
+	public String getGoogleId() {
+		return googleId;
+	}
+
+	public void setGoogleId(String googleId) {
+		this.googleId = googleId;
+	}
+
 	@Column(name = "privacy_type")
 	@Enumerated(EnumType.STRING)
 	public PrivacyType getPrivacyType() {
@@ -67,11 +92,11 @@ public class Video extends BaseModel{
 	}
 
 	@Column(name = "title")
-	public String getTittle() {
+	public String getTitle() {
 		return title;
 	}
 
-	public void setTittle(String tittle) {
+	public void setTitle(String tittle) {
 		this.title = tittle;
 	}
 
@@ -84,7 +109,7 @@ public class Video extends BaseModel{
 		this.description = description;
 	}
 
-	@ManyToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id", nullable = false)
 	public User getOwner() {
 		return owner;

@@ -14,5 +14,7 @@ public interface IVideoService {
 	String deleteVideo(Video video) throws CustomBaseException;
 	
 	List<Video> listVideos(Predicate predicate) throws CustomBaseException;
+	
+	List<Video> ListVideosWithPrivacy(String userId, String ownerId) throws CustomBaseException;
 
 }

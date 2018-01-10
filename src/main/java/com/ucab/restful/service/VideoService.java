@@ -96,4 +96,14 @@ public class VideoService implements IVideoService {
 		}
 	}
 
+	@Override
+	public List<Video> ListVideosWithPrivacy(String userId, String ownerId) throws CustomBaseException {
+		try {
+			return privacyRepository.listVideosWithPrivacyLogic(userId, ownerId);
+		} catch (Exception e) {
+			log.error("Error while trying finding videos \n Error: " + e.getMessage());
+			throw new CustomDataBaseOperationException("Error while trying finding videos \n Error: " + e.getMessage());
+		}
+	}
+
 }

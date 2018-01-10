@@ -1,13 +1,7 @@
 package com.ucab.restful.data.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -16,6 +10,7 @@ import org.jsondoc.core.annotation.ApiObjectField;
 import org.jsondoc.core.pojo.ApiStage;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.PropertyType;
 import com.querydsl.core.annotations.QueryType;
 
@@ -45,44 +40,17 @@ public class User  extends BaseModel{
 	private String clientSecret;
 	
 	@ApiObjectField(description = "pass for google auth", order = 70)
-	@JsonIgnore
 	private String password;
 	
-	@ApiObjectField(description = "Set of videos", order = 40)
-	private Set<Video> videos = new HashSet<>();
-	
-	@ApiObjectField(description = "Set of subscribers", order = 50)
-	private Set<Subscription> subscribers = new HashSet<>();
-	
-	@ApiObjectField(description = "Set of my subscriptions", order = 60)
-	private Set<Subscription> channels = new HashSet<>();
-	
-	
 	@Column(name = "password")
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 
+	@JsonProperty("password")
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="subscriber",cascade = CascadeType.ALL)
-	public Set<Subscription> getChannels() {
-		return channels;
-	}
-
-	public void setChannels(Set<Subscription> channels) {
-		this.channels = channels;
-	}
-
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="owner",cascade = CascadeType.ALL)
-	public Set<Subscription> getSubscribers() {
-		return subscribers;
-	}
-
-	public void setSubscribers(Set<Subscription> subscribers) {
-		this.subscribers = subscribers;
 	}
 
 	@Column(name = "nickname",unique=true)
@@ -92,15 +60,6 @@ public class User  extends BaseModel{
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
-	}
-
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="owner",cascade = CascadeType.ALL)
-	public Set<Video> getVideos() {
-		return videos;
-	}
-
-	public void setVideos(Set<Video> videos) {
-		this.videos = videos;
 	}
 
 	@Column(name = "client_id")

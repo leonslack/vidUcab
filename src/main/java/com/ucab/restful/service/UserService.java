@@ -33,7 +33,7 @@ public class UserService  implements IUserService{
 	public User create(User entity) throws CustomBaseException {
 		User aux = findByNickname(entity.getNickname());
 		if(aux != null) {
-			throw new CustomAlreadyExistsException("This nickname is already in use:"+entity.getNickname());
+			throw new CustomAlreadyExistsException("This nickname is already in use");
 		}
 		try {
 			return userRepository.save(entity);

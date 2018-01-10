@@ -1,6 +1,5 @@
 package com.ucab.restful.data.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -33,7 +32,7 @@ public class Privacy extends BaseModel{
 	@NotNull
 	private Video video;
 
-	@ManyToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="subscriber_id", nullable = false)
 	public User getSubscriber() {
 		return subscriber;
@@ -43,7 +42,7 @@ public class Privacy extends BaseModel{
 		this.subscriber = subscriber;
 	}
 
-	@ManyToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="video_id", nullable = false)
 	public Video getVideo() {
 		return video;

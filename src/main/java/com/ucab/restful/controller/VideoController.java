@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
+import org.jsondoc.core.annotation.ApiQueryParam;
 import org.jsondoc.core.pojo.ApiStage;
 import org.jsondoc.core.pojo.ApiVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,8 @@ public class VideoController extends CustomBaseController{
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiMethod(description = "Get list of videos", summary = "GET VIDEOS")
 	public ResponseEntity<SimpleResponseStructure<List<Video>>> getvideos(
-			@RequestParam(value = "ownerId", defaultValue = "") final String ownerId,
-			@RequestParam(value = "userId", defaultValue="") final String userId)
+			@RequestParam(value = "ownerId", defaultValue = "", required=false) @ApiQueryParam(name="ownerId", description="video's owner id") final String ownerId,
+			@RequestParam(value = "userId", defaultValue="", required=false) @ApiQueryParam(name="userId", description="who is searching")final String userId)
 			throws CustomBaseException {
 
 		SimpleResponseStructure<List<Video>> response = new SimpleResponseStructure<>();
@@ -69,15 +70,13 @@ public class VideoController extends CustomBaseController{
 		if (userId.isEmpty() && ownerId.isEmpty()) {
 			response.setData(videoService.listVideos(VideoPredicates.videoPublic()));
 		}
-		else if (!userId.isEmpty() && ownerId.isEmpty()) {
-			//TODO feed public, and privacy with userID
-		}
 		else if(userId.isEmpty() && !ownerId.isEmpty()) {
 			response.setData(videoService.listVideos(VideoPredicates.publicVideos(UUID.fromString(ownerId))));
 		}
-		else if(!userId.isEmpty() && !ownerId.isEmpty()) {
-			//TODO feed 
+		else {
+			response.setData(videoService.ListVideosWithPrivacy(userId, ownerId));
 		}
+		
 
 		
 		logger.debug("listing Videos from user: " + userId);

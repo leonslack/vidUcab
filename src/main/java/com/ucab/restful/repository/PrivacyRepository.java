@@ -4,6 +4,6 @@ import java.util.UUID;
 
 import com.ucab.restful.data.model.Privacy;
 
-public interface PrivacyRepository extends CustomBaseJpaRepository<Privacy, UUID>{
+public interface PrivacyRepository extends CustomBaseJpaRepository<Privacy, UUID>,PrivacyRepositoryCustom{
 
 }
