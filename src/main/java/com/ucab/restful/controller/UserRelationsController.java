@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
 import org.jsondoc.core.annotation.ApiPathParam;
-import org.jsondoc.core.annotation.ApiQueryParam;
 import org.jsondoc.core.pojo.ApiStage;
 import org.jsondoc.core.pojo.ApiVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ucab.restful.commons.exceptions.CustomBaseException;
@@ -63,16 +61,36 @@ public class UserRelationsController extends CustomBaseController{
 	}
 	
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
+	@RequestMapping(value = "/subscribers", method = RequestMethod.GET)
 	@ApiMethod(description = "Retrieves an list with, subscribers or channels, depends boolean 'subs'", summary = "GET SUBCRIPTIONS")
-	public ResponseEntity<SimpleResponseStructure<List<User>>> getSubscriptions(
-			@RequestParam(value = "subs") @ApiQueryParam(name = "subs", description = "boolean, true in case list subscribers, false in case list my 	subscriptions") final Boolean subs,
+	public ResponseEntity<SimpleResponseStructure<List<User>>> getSubscribers(
 			@PathVariable("userId") @ApiPathParam(name = "userId", description = "The ID of the client") UUID userId)
 			throws CustomBaseException {
 
 		SimpleResponseStructure<List<User>> response = new SimpleResponseStructure<>();
 
-		List<User> users = subscriptionService.getUserByRelation(userId, subs);
+		List<User> users = subscriptionService.getUserByRelation(userId, true);
+
+		response.setData(users);
+		if (users == null || users.isEmpty()) {
+			logger.debug("Users does not exists");
+
+			return ResponseEntity.ok(response);
+		}
+		logger.debug("Found " + users.size() + " Users");
+		return ResponseEntity.ok(response);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
+	@ApiMethod(description = "Retrieves an list with, subscribers or channels, depends boolean 'subs'", summary = "GET SUBCRIPTIONS")
+	public ResponseEntity<SimpleResponseStructure<List<User>>> getSubscriptions(
+			@PathVariable("userId") @ApiPathParam(name = "userId", description = "The ID of the client") UUID userId)
+			throws CustomBaseException {
+
+		SimpleResponseStructure<List<User>> response = new SimpleResponseStructure<>();
+
+		List<User> users = subscriptionService.getUserByRelation(userId, false);
 
 		response.setData(users);
 		if (users == null || users.isEmpty()) {
