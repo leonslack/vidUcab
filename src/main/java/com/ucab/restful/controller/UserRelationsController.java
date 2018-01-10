@@ -28,7 +28,7 @@ import com.ucab.restful.service.IVideoService;
 @RestController
 @RequestMapping("/users/{userId}")
 @Api(name = "User Relations Services", description = "Services to manage relations of Users", visibility = ApiVisibility.PUBLIC, stage = ApiStage.ALPHA)
-public class UserRelationsController {
+public class UserRelationsController extends CustomBaseController{
 	
 	Logger logger = LogManager.getLogger();
 

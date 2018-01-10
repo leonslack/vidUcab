@@ -1,44 +1,55 @@
 package com.ucab.restful.dto.response;
 
-import org.apache.http.HttpStatus;
+import java.util.List;
 
-import com.ucab.restful.commons.enums.CustomResponseCode;
+import org.springframework.http.HttpStatus;
+
 import com.ucab.restful.commons.exceptions.CustomBaseException;
+import com.ucab.restful.commons.exceptions.CustomMessageError;
 
 public class AbstractBaseResponseStructure {
-	private int statusCode;
+	
+private String[] message ;	
+	
+	private List<CustomMessageError> errors;	
 
-	private String message;	
-
+	private HttpStatus httpStatus;
+	
 	public AbstractBaseResponseStructure() {
-		super();
-		this.setStatusCode((int) CustomResponseCode.OK.getCode());
-		this.message= CustomResponseCode.OK.getMessage();
+		super();	
+		this.httpStatus = HttpStatus.OK;
+		
 	}	
 	public AbstractBaseResponseStructure(CustomBaseException cbe){
 		super();
-		this.statusCode = cbe.getCode().getCode();
+		
 	}
 
 	public AbstractBaseResponseStructure(Exception e){
 		super();
-		this.statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
+		
 	}
 
-	public int getStatusCode() {
-		return statusCode;
-	}
-
-	public void setStatusCode(int statusCode) {
-		this.statusCode = statusCode;
-	}
-
-	public String getMessage() {
+	public String[] getMessage() {
 		return message;
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(String[] message) {
 		this.message = message;
+	}
+	
+
+	public List<CustomMessageError> getErrors() {
+		return errors;
+	}
+	public void setErrors(List<CustomMessageError> errors) {
+		this.errors = errors;
+	}
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
+	}
+	public void setHttpStatus(HttpStatus httpStatus) {
+		this.httpStatus = httpStatus;
 	}
 
 }

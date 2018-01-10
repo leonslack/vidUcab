@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
 import com.ucab.restful.commons.exceptions.CustomAlreadyExistsException;
+import com.ucab.restful.commons.exceptions.CustomAuthException;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.commons.exceptions.CustomDataBaseOperationException;
 import com.ucab.restful.data.model.User;
 import com.ucab.restful.data.predicates.UserPredicates;
+import com.ucab.restful.dto.request.AuthRequest;
 import com.ucab.restful.repository.UserRepository;
 
 @Service("IUserService")
@@ -72,7 +74,7 @@ public class UserService  implements IUserService{
 		} catch (Exception e) {
 			log.error("Error while trying find users \n Error: " + e.getMessage());
 			throw new CustomDataBaseOperationException(
-					"Error while trying to save new User \n Error: " + e.getMessage());
+					"Error while trying to find new User \n Error: " + e.getMessage());
 		}
 	}
 
@@ -86,6 +88,23 @@ public class UserService  implements IUserService{
 	public List<User> findAllUsers(Predicate predicate) throws CustomBaseException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public User findOneByPredicate(AuthRequest dto) throws CustomBaseException {
+		User response;
+		try {
+			response = userRepository.findOne(UserPredicates.autheq(dto));
+		} catch (Exception e) {
+			log.error("Error while trying finding user to authenticate \n Error: " + e.getMessage());
+			throw new CustomDataBaseOperationException(
+					"Error while trying to finding new User to autenticate\n Error: " + e.getMessage());
+		}
+		
+		if(response == null){
+			throw new CustomAuthException("Nickname or password invalid");
+		}
+		return response;
 	}
 
 }

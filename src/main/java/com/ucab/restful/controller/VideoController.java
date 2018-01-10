@@ -22,13 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.data.model.Video;
 import com.ucab.restful.data.predicates.VideoPredicates;
+import com.ucab.restful.dto.request.CreateVideoRequest;
 import com.ucab.restful.dto.response.SimpleResponseStructure;
 import com.ucab.restful.service.IVideoService;
 
 @RestController
 @RequestMapping("/videos")
 @Api(name = "Videos Services", description = "Services to manage videos", visibility = ApiVisibility.PUBLIC, stage = ApiStage.ALPHA)
-public class VideoController {
+public class VideoController extends CustomBaseController{
 
 	Logger logger = LogManager.getLogger();
 
@@ -43,16 +44,16 @@ public class VideoController {
 	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.POST)
 	@ApiMethod(description = "Cretate a new video", summary = "CREATE VIDEO")
-	public ResponseEntity<SimpleResponseStructure<Video>> addSubcription(@RequestBody Video video)
+	public ResponseEntity<SimpleResponseStructure<Video>> createVideo(@RequestBody CreateVideoRequest videoResquest)
 			throws CustomBaseException {
-		video = videoService.createVideo(video);
+		Video video = videoService.createVideo(videoResquest);
 
 		SimpleResponseStructure<Video> response = new SimpleResponseStructure<>();
 
 		response.setData(video);
 		logger.debug("Added:: " + video);
 
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.ok(response);
 	}
 	
 	@CrossOrigin(origins = "*")

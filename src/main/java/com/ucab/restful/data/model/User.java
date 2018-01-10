@@ -44,6 +44,10 @@ public class User  extends BaseModel{
 	@ApiObjectField(description = "clientSecret for google auth", order = 35)
 	private String clientSecret;
 	
+	@ApiObjectField(description = "pass for google auth", order = 70)
+	@JsonIgnore
+	private String password;
+	
 	@ApiObjectField(description = "Set of videos", order = 40)
 	private Set<Video> videos = new HashSet<>();
 	
@@ -53,6 +57,16 @@ public class User  extends BaseModel{
 	@ApiObjectField(description = "Set of my subscriptions", order = 60)
 	private Set<Subscription> channels = new HashSet<>();
 	
+	
+	@Column(name = "password")
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="subscriber",cascade = CascadeType.ALL)
 	public Set<Subscription> getChannels() {
 		return channels;
@@ -90,11 +104,11 @@ public class User  extends BaseModel{
 	}
 
 	@Column(name = "client_id")
-	public String getClientid() {
+	public String getClientId() {
 		return clientId;
 	}
 
-	public void setClientid(String clientid) {
+	public void setClientId(String clientid) {
 		this.clientId = clientid;
 	}
 

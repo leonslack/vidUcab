@@ -36,7 +36,7 @@ import com.ucab.restful.service.IUserService;
 @RestController
 @RequestMapping("/users")
 @Api(name = "User Services", description = "Services to manage Users", visibility = ApiVisibility.PUBLIC, stage = ApiStage.ALPHA)
-public class UserController {
+public class UserController extends CustomBaseController{
 	
 	Logger logger = LogManager.getLogger();
 	
@@ -61,7 +61,7 @@ public class UserController {
 		logger.debug("Added:: " + newUser);
 
 		response.setData(newUser);
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.ok(response);
 	}
 	
 	@CrossOrigin(origins = "*")
@@ -77,7 +77,7 @@ public class UserController {
 		
 		result = googleService.fileNames(user);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		return ResponseEntity.ok(result);
 	}
 
 	@CrossOrigin(origins = "*")
@@ -123,7 +123,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
 		logger.debug("Found " + users.getSize() + " Users");
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.ok(response);
 	}
 
 	@CrossOrigin(origins = "*")

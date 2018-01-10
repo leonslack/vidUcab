@@ -2,6 +2,7 @@ package com.ucab.restful.data.predicates;
 
 import com.querydsl.core.types.Predicate;
 import com.ucab.restful.data.model.QUser;
+import com.ucab.restful.dto.request.AuthRequest;
 
 
 public class UserPredicates {
@@ -26,6 +27,10 @@ public class UserPredicates {
 	
 	public static Predicate nickNameEquals(String nickname) {
 		return user.nickname.eq(nickname);
+	}
+	
+	public static Predicate autheq(AuthRequest dto){
+		return user.password.eq(dto.password).and(user.nickname.eq(dto.nickname));
 	}
 
 }

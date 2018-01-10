@@ -71,7 +71,7 @@ public class GoogleService implements IGoogleService {
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
-                        HTTP_TRANSPORT, JSON_FACTORY, user.getClientid(),user.getClientSecret(), SCOPES)
+                        HTTP_TRANSPORT, JSON_FACTORY, user.getClientId(),user.getClientSecret(), SCOPES)
                 .setDataStoreFactory(DATA_STORE_FACTORY)
                 .setAccessType("offline")
                 .build();

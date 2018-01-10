@@ -35,4 +35,8 @@ public abstract class CustomBaseException extends Exception{
 	public CustomResponseCode getCode() {
 		return code;
 	}
+	
+	public void setCode(CustomResponseCode code) {
+		this.code = code;
+	}
 }

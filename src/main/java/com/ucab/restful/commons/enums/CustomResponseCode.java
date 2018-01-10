@@ -7,12 +7,13 @@ public enum CustomResponseCode {
 	REGISTRY_NOTFOUND(20, "Record Not found") , 
 	INVALID_ATTRIBUTE(30, "Invalid Attribute"), 
 	INVALID_ACTION(31, "Invalid Action"),
-	ALREADY_EXISTS(40, "Registry with given attributes already exists"), 
+	ALREADY_EXISTS(409, "Registry with given attributes already exists"), 
 	DATABASE_ERROR(100, "Database Operation Error"),
 	STORAGE_ERROR(150, "Error connecting to Storage server"),
 	CONNECTION_ERROR(155, "Error connecting the server or service"),
     MESSAGING_ERROR(160, "Error sending Email"),
-    MALFORMED_TEMPLATE(300, "Malformed Template");
+    MALFORMED_TEMPLATE(300, "Malformed Template"),
+    BAD_CREDENTIALS(400,"Nickname or password incorrect");
 	
 	
 	public int getCode() {

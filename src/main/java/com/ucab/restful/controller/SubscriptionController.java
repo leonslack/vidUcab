@@ -8,10 +8,10 @@ import org.apache.logging.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
 import org.jsondoc.core.annotation.ApiPathParam;
+import org.jsondoc.core.annotation.ApiQueryParam;
 import org.jsondoc.core.pojo.ApiStage;
 import org.jsondoc.core.pojo.ApiVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +30,7 @@ import com.ucab.restful.service.ISubscriptionService;
 @RestController
 @RequestMapping("/subscriptions")
 @Api(name = "Subscription Services", description = "Services to manage Subscription", visibility = ApiVisibility.PUBLIC, stage = ApiStage.ALPHA)
-public class SubscriptionController {
+public class SubscriptionController extends CustomBaseController{
 
 	Logger logger = LogManager.getLogger();
 
@@ -54,12 +54,12 @@ public class SubscriptionController {
 		response.setData(subscription);
 		logger.debug("Added:: " + subscription);
 
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.ok(response);
 	}
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
-	@ApiMethod(description = "Cretate a new subscription", summary = "DELETE SUBSCRIPTION")
+	@ApiMethod(description = "Remove a subscription", summary = "DELETE SUBSCRIPTION")
 	public ResponseEntity<SimpleResponseStructure<String>> deleteSubscription(@RequestBody Subscription subscription)
 			throws CustomBaseException {
 
@@ -68,14 +68,14 @@ public class SubscriptionController {
 		response.setData(subscriptionService.deleteSubscription(subscription));
 		logger.debug("removed subscription");
 
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.ok(response);
 	}
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	@ApiMethod(description = "Retrieves an list with, subscribers or channels, depends boolean 'subs'", summary = "GET SUBCRIPTIONS")
 	public ResponseEntity<SimpleResponseStructure<List<User>>> getSubscriptions(
-			@RequestParam(value = "subs") @ApiPathParam(name = "subs", description = "boolean, true in case list subscribers, false in case list my 			subscriptions") final Boolean subs,
+			@RequestParam(value = "subs") @ApiQueryParam(name = "subs", description = "boolean, true in case list subscribers, false in case list my 	subscriptions") final Boolean subs,
 			@PathVariable("userId") @ApiPathParam(name = "userId", description = "The ID of the client") UUID userId)
 			throws CustomBaseException {
 
@@ -87,10 +87,10 @@ public class SubscriptionController {
 		if (users == null || users.isEmpty()) {
 			logger.debug("Users does not exists");
 
-			return ResponseEntity.status(HttpStatus.OK).body(response);
+			return ResponseEntity.ok(response);
 		}
 		logger.debug("Found " + users.size() + " Users");
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.ok(response);
 	}
 
 }
