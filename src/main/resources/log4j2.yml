@@ -16,8 +16,8 @@ Configutation:
  
     RollingFile:
       - name: RollingFile_Appender
-        fileName: ${log-path}/va.log
-        filePattern: "${log-path}/archive/va.log.%d{yyyy-MM-dd-hh-mm}.gz"
+        fileName: ${log-path}/vidUcab.log
+        filePattern: "${log-path}/archive/vidUcab.log.%d{yyyy-MM-dd-hh-mm}.gz"
         PatternLayout:
           pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
         Policies:
@@ -27,7 +27,7 @@ Configutation:
         DefaultRollOverStrategy:
           max: 30
       - name: RollingFileFull_Appender
-        fileName: ${log-path}/vaFull.log
+        fileName: ${log-path}/vidUcabFull.log
         filePattern: "${log-path}/archive/vaFull.log.%d{yyyy-MM-dd-hh-mm}.gz"
         PatternLayout:
           pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
