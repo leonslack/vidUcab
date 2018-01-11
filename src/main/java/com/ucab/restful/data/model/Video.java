@@ -55,7 +55,7 @@ public class Video extends BaseModel{
 	private Set<Privacy> privacy = new HashSet<>();
 	
 	@ApiObjectField(description = "Duration of video", order = 70)
-	//@NotNull
+	@NotNull
 	private Integer duration;
 	
 	
