@@ -46,6 +46,7 @@ public class CustomBaseController {
 	 * @param response
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static <T extends PagedResponseStructure> ResponseEntity<T> getResponseEntity(T response) {
 		HttpStatus status = response.getHttpStatus() == null ? HttpStatus.OK : response.getHttpStatus();
 
