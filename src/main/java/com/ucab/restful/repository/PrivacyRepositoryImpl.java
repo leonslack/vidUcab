@@ -42,9 +42,10 @@ public class PrivacyRepositoryImpl implements PrivacyRepositoryCustom{
 			result = query.selectFrom(video)
 					.leftJoin(video.privacy,qprivacy)
 					.leftJoin(video.owner).fetchJoin()
-					.where(video.privacyType.eq(PrivacyType.PUBLIC)
+					.where(video.owner.id.ne(UUID.fromString(userId))
+							.and(video.privacyType.eq(PrivacyType.PUBLIC)
 							.or(video.privacyType.eq(PrivacyType.ONLYSOME)
-							.and(qprivacy.subscriber.id.eq(UUID.fromString(userId))))).fetch();
+							.and(qprivacy.subscriber.id.eq(UUID.fromString(userId)))))).fetch();
 		}
 		return result;
 	}
