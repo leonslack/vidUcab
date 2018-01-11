@@ -1,6 +1,5 @@
 package com.ucab.restful.data.model;
 
-import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
