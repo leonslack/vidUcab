@@ -16,5 +16,10 @@ public interface IUserService extends CRUDService<User>{
 	
 	@Transactional(readOnly = true)
 	User findOneByPredicate(AuthRequest dto) throws CustomBaseException;
+	
+	@Transactional(rollbackFor = Exception.class)
+	User updateUser(User updatedUser) throws CustomBaseException;
+	
+	
 
 }

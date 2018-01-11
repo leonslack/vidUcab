@@ -82,15 +82,13 @@ public class UserController extends CustomBaseController{
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Void> updateUser(@RequestBody User newUser) throws CustomBaseException {
-		User existingEmp = userService.findById(newUser.getId());
-		if (existingEmp == null) {
-			logger.debug("User with id " + newUser.getId() + " does not exists");
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		} else {
-			userService.create(newUser);
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		}
+	public ResponseEntity<SimpleResponseStructure<User>> updateUser(@RequestBody User updatedUser) throws CustomBaseException {
+		
+		SimpleResponseStructure<User> response = new SimpleResponseStructure<>();
+		
+		response.setData(userService.updateUser(updatedUser));
+		
+		return ResponseEntity.ok(response);
 	}
 
 	@CrossOrigin(origins = "*")

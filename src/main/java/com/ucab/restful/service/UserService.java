@@ -16,6 +16,7 @@ import com.ucab.restful.commons.exceptions.CustomAlreadyExistsException;
 import com.ucab.restful.commons.exceptions.CustomAuthException;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.commons.exceptions.CustomDataBaseOperationException;
+import com.ucab.restful.commons.exceptions.CustomMissingAttributeException;
 import com.ucab.restful.data.model.User;
 import com.ucab.restful.data.predicates.UserPredicates;
 import com.ucab.restful.dto.request.AuthRequest;
@@ -35,6 +36,12 @@ public class UserService  implements IUserService{
 		if(aux != null) {
 			throw new CustomAlreadyExistsException("This nickname is already in use");
 		}
+		
+		return persistUser(entity);
+		
+	}
+	
+	private User persistUser(User entity) throws CustomDataBaseOperationException{
 		try {
 			return userRepository.save(entity);
 		} catch (Exception e) {
@@ -105,6 +112,25 @@ public class UserService  implements IUserService{
 			throw new CustomAuthException("Nickname or password invalid");
 		}
 		return response;
+	}
+
+	@Override
+	public User updateUser(User updatedUser) throws CustomBaseException {
+		if (updatedUser == null || updatedUser.getId() == null) {
+			log.info("Null attributes in user");
+			throw new CustomMissingAttributeException("Null Attribute in user");
+		}
+		
+		User queriedUser = this.findById(updatedUser.getId());
+		
+		if(updatedUser.getPassword()!=null)
+			queriedUser.setPassword(updatedUser.getPassword());
+		if(updatedUser.getFirstName()!=null)
+			queriedUser.setFirstName(updatedUser.getFirstName());
+		if(updatedUser.getLastName()!=null)
+			queriedUser.setLastName(updatedUser.getLastName());
+		
+		return persistUser(queriedUser);
 	}
 
 }
