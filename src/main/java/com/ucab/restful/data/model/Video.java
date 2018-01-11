@@ -1,5 +1,6 @@
 package com.ucab.restful.data.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -51,7 +52,7 @@ public class Video extends BaseModel{
 	@ApiObjectField(description = "id of video in google", order = 60)
 	private String googleId;
 	
-	private Set<Privacy> privacy;
+	private Set<Privacy> privacy = new HashSet<>();
 	
 	@OneToMany(mappedBy = "video", fetch = FetchType.LAZY)
 	@JsonIgnore
