@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
+import com.ucab.restful.commons.exceptions.CustomAlreadyExistsException;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.commons.exceptions.CustomDataBaseOperationException;
 import com.ucab.restful.data.model.Subscription;
@@ -18,10 +19,10 @@ import com.ucab.restful.repository.SubscriptionRepository;
 
 @Service("ISubscriptionService")
 public class SubscriptionService implements ISubscriptionService {
-	
+
 	@Autowired
 	private SubscriptionRepository subscriptionRepository;
-	
+
 	final static Logger log = LogManager.getLogger();
 
 	@Override
@@ -37,6 +38,11 @@ public class SubscriptionService implements ISubscriptionService {
 
 	@Override
 	public Subscription createSubscription(Subscription subscription) throws CustomBaseException {
+		Subscription aux = findByPredicate(SubscriptionPredicates.usersIdEq(subscription.getOwner().getId(),
+				subscription.getSubscriber().getId()));
+		if(aux != null) {
+			throw new CustomAlreadyExistsException("You are already subscriber");
+		}
 		try {
 			return subscriptionRepository.save(subscription);
 		} catch (Exception e) {
@@ -45,8 +51,8 @@ public class SubscriptionService implements ISubscriptionService {
 					"Error while trying save subscription users \n Error: " + e.getMessage());
 		}
 	}
-	
-	private Subscription findToDelete(Predicate predicate) throws CustomBaseException{
+
+	private Subscription findByPredicate(Predicate predicate) throws CustomBaseException {
 		try {
 			return subscriptionRepository.findOne(predicate);
 		} catch (Exception e) {
@@ -58,7 +64,8 @@ public class SubscriptionService implements ISubscriptionService {
 
 	@Override
 	public String deleteSubscription(Subscription subcription) throws CustomBaseException {
-		subcription = findToDelete(SubscriptionPredicates.usersIdEq(subcription.getOwner().getId(), subcription.getSubscriber().getId()));
+		subcription = findByPredicate(
+				SubscriptionPredicates.usersIdEq(subcription.getOwner().getId(), subcription.getSubscriber().getId()));
 		try {
 			subscriptionRepository.delete(subcription);
 			return "Deleted";
