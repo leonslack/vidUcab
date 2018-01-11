@@ -74,7 +74,7 @@ public abstract class BaseModel implements Serializable{
 	@Type(type = "pg-uuid")
 	@GeneratedValue(generator = "uuid-gen",strategy = GenerationType.IDENTITY)
 	@GenericGenerator(name = "uuid-gen", strategy = "uuid2")
-	@Column(name = "ID", unique = true, nullable = false)
+	@Column(name = "ID", unique = true, nullable = false, updatable = false)
 	public UUID getId() {
 		return this.id;
 	}

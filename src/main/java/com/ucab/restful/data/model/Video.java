@@ -1,5 +1,6 @@
 package com.ucab.restful.data.model;
 
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,6 +55,20 @@ public class Video extends BaseModel{
 	
 	private Set<Privacy> privacy = new HashSet<>();
 	
+	@ApiObjectField(description = "Duration of video", order = 70)
+	//@NotNull
+	private LocalTime duration = LocalTime.of(0, 0);
+	
+	
+	@Column(name = "duration")
+	public LocalTime getDuration() {
+		return duration;
+	}
+
+	public void setDuration(LocalTime duration) {
+		this.duration = duration;
+	}
+
 	@OneToMany(mappedBy = "video", fetch = FetchType.LAZY)
 	@JsonIgnore
 	public Set<Privacy> getPrivacy() {
