@@ -57,15 +57,15 @@ public class Video extends BaseModel{
 	
 	@ApiObjectField(description = "Duration of video", order = 70)
 	//@NotNull
-	private LocalTime duration = LocalTime.of(0, 0);
+	private Integer duration;
 	
 	
 	@Column(name = "duration")
-	public LocalTime getDuration() {
+	public Integer getDuration() {
 		return duration;
 	}
 
-	public void setDuration(LocalTime duration) {
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 
