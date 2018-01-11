@@ -1,0 +1,54 @@
+Configutation:
+  name: Default
+
+  Properties:
+    Property:
+      name: log-path
+      value: "logs/vidUcab"
+
+  Appenders:
+
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+ 
+    RollingFile:
+      - name: RollingFile_Appender
+        fileName: ${log-path}/vidUcab.log
+        filePattern: "${log-path}/archive/vidUcab.log.%d{yyyy-MM-dd-hh-mm}.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+        DefaultRollOverStrategy:
+          max: 30
+      - name: RollingFileFull_Appender
+        fileName: ${log-path}/vidUcabFull.log
+        filePattern: "${log-path}/archive/vaFull.log.%d{yyyy-MM-dd-hh-mm}.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+            modulate: true
+        DefaultRollOverStrategy:
+          max: 30
+          
+  Loggers:
+
+      Root:
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFileFull_Appender
+            level: warn
+
+      Logger:
+        - name: com.ucab.restul
+          level: info
+          AppenderRef:
+          - ref: RollingFile_Appender
