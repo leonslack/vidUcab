@@ -8,8 +8,8 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name></name>
-	<description></description>
+	<name>Backend Maven Webapp</name>
+	<description>Desarrollo DS201718 </description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -19,6 +19,8 @@
 	</parent>
 
 	<properties>
+		<jdk.version>1.8</jdk.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>	
