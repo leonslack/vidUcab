@@ -27,7 +27,7 @@ import com.ucab.restful.repository.UserRepository;
 public class UserService  implements IUserService{
 	
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 	
 	final static Logger log = LogManager.getLogger();
 
@@ -38,8 +38,21 @@ public class UserService  implements IUserService{
 			throw new CustomAlreadyExistsException("This nickname is already in use");
 		}
 		
+		validateEntity(entity);
+		
 		return persistUser(entity);
 		
+	}
+	
+	private void validateEntity(User user) throws CustomMissingAttributeException{
+		if(user.getPassword()==null){
+			log.info("Null attributes in user, password cant be null");
+			throw new CustomMissingAttributeException("Null Attribute password in user");
+		}
+		if(user.getNickname()==null){
+			log.info("Null attributes in user");
+			throw new CustomMissingAttributeException("Null Attribute nickname in user");
+		}
 	}
 	
 	private User persistUser(User entity) throws CustomDataBaseOperationException{

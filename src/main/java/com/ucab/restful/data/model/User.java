@@ -40,6 +40,7 @@ public class User  extends BaseModel{
 	private String clientSecret;
 	
 	@ApiObjectField(description = "pass for google auth", order = 70)
+	@NotNull
 	private String password;
 	
 	@Column(name = "password")

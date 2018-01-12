@@ -11,7 +11,7 @@ public class CustomVideoPrivacyException extends CustomBaseException{
 	public CustomVideoPrivacyException(String message) {
 		super(message);
 		setHttpStatus(HttpStatus.CONFLICT);
-		setCode(CustomResponseCode.BAD_CREDENTIALS);
+		setCode(CustomResponseCode.INVALID_ACTION);
 		
 	}
 

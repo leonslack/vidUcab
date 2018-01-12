@@ -21,6 +21,7 @@ import org.jsondoc.core.pojo.ApiStage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.PropertyType;
 import com.querydsl.core.annotations.QueryType;
+import com.ucab.restful.commons.enums.Category;
 import com.ucab.restful.commons.enums.PrivacyType;
 
 @Entity
@@ -55,10 +56,23 @@ public class Video extends BaseModel{
 	private Set<Privacy> privacy = new HashSet<>();
 	
 	@ApiObjectField(description = "Duration of video", order = 70)
-	@NotNull
+	//@NotNull
 	private Integer duration;
 	
+	@ApiObjectField(description = "Category of video", order = 80)
 	
+	private Category category;
+	
+	@Column(name = "category")
+	@Enumerated(EnumType.STRING)
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	@Column(name = "duration")
 	public Integer getDuration() {
 		return duration;

@@ -3,6 +3,7 @@ package com.ucab.restful.data.predicates;
 import java.util.UUID;
 
 import com.querydsl.core.types.Predicate;
+import com.ucab.restful.commons.enums.Category;
 import com.ucab.restful.commons.enums.PrivacyType;
 import com.ucab.restful.data.model.QVideo;
 
@@ -22,6 +23,10 @@ public class VideoPredicates {
 		
 		return QVideo.video.privacyType.eq(PrivacyType.PUBLIC).and(QVideo.video.owner.id.eq(ownerId));
 		
+	}
+	
+	public static Predicate categoryEquals(Category category){
+		return QVideo.video.category.eq(category);
 	}
 
 }

@@ -50,4 +50,20 @@ public class PrivacyRepositoryImpl implements PrivacyRepositoryCustom{
 		return result;
 	}
 
+	@Override
+	public Boolean userCanComment(UUID videoId, UUID userId) {
+		
+		JPQLQueryFactory query = new JPAQueryFactory(em);
+		
+		QPrivacy qprivacy = new QPrivacy("qprivacy");
+		
+		QVideo video = QVideo.video;
+		return query.selectFrom(video)
+				.leftJoin(video.privacy,qprivacy).where(video.id.eq(videoId)
+						.and(video.privacyType.eq(PrivacyType.PUBLIC)
+						.or(video.owner.id.eq(userId))
+						.or(video.privacyType.eq(PrivacyType.ONLYSOME)
+						.and(qprivacy.subscriber.id.eq(userId))))).fetchOne()!=null;
+	}
+
 }

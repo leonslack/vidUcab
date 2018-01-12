@@ -93,14 +93,20 @@ public class UserController extends CustomBaseController{
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<User> getUser(@PathVariable("id") UUID id) throws CustomBaseException {
+	public ResponseEntity<SimpleResponseStructure<User>> getUser(@PathVariable("id") UUID id) throws CustomBaseException {
+		
+		SimpleResponseStructure<User> response = new SimpleResponseStructure<>();
+		
 		User user = userService.findById(id);
+		
 		if (user == null) {
 			logger.debug("User with id " + id + " does not exists");
-			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
+		
+		response.setData(user);
+		
 		logger.debug("Found User: " + user);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return ResponseEntity.ok(response);
 	}
 
 	@CrossOrigin(origins = "*")
