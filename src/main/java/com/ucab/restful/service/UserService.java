@@ -17,6 +17,7 @@ import com.ucab.restful.commons.exceptions.CustomAuthException;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.commons.exceptions.CustomDataBaseOperationException;
 import com.ucab.restful.commons.exceptions.CustomMissingAttributeException;
+import com.ucab.restful.commons.exceptions.CustomNotFoundException;
 import com.ucab.restful.data.model.User;
 import com.ucab.restful.data.predicates.UserPredicates;
 import com.ucab.restful.dto.request.AuthRequest;
@@ -122,6 +123,12 @@ public class UserService  implements IUserService{
 		}
 		
 		User queriedUser = this.findById(updatedUser.getId());
+		
+		if (queriedUser == null) {
+			log.info("Given user not found");
+			throw new CustomNotFoundException("Given user not found");
+		}
+		
 		
 		if(updatedUser.getPassword()!=null)
 			queriedUser.setPassword(updatedUser.getPassword());
