@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ucab.restful.commons.enums.Category;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.data.model.Video;
 import com.ucab.restful.data.predicates.VideoPredicates;
@@ -30,7 +31,7 @@ import com.ucab.restful.service.IVideoService;
 @RestController
 @RequestMapping("/videos")
 @Api(name = "Videos Services", description = "Services to manage videos", visibility = ApiVisibility.PUBLIC, stage = ApiStage.ALPHA)
-public class VideoController extends CustomBaseController{
+public class VideoController extends CustomBaseController {
 
 	Logger logger = LogManager.getLogger();
 
@@ -56,34 +57,33 @@ public class VideoController extends CustomBaseController{
 
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.GET)
 	@ApiMethod(description = "Get list of videos", summary = "GET VIDEOS")
 	public ResponseEntity<SimpleResponseStructure<List<Video>>> getvideos(
-			@RequestParam(value = "ownerId", defaultValue = "", required=false) @ApiQueryParam(name="ownerId", description="video's owner id") final String ownerId,
-			@RequestParam(value = "userId", defaultValue="", required=false) @ApiQueryParam(name="userId", description="who is searching")final String userId)
-			throws CustomBaseException {
+			@RequestParam(value = "ownerId", defaultValue = "", required = false) @ApiQueryParam(name = "ownerId", description = "video's owner id") final String ownerId,
+			@RequestParam(value = "userId", defaultValue = "", required = false) @ApiQueryParam(name = "userId", description = "who is searching") final String userId,
+			@RequestParam(value = "category", required = false) @ApiQueryParam(name = "category", description = "category to search") final Category category)
+					throws CustomBaseException {
 
 		SimpleResponseStructure<List<Video>> response = new SimpleResponseStructure<>();
-		
-		if (userId.isEmpty() && ownerId.isEmpty()) {
-			response.setData(videoService.listVideos(VideoPredicates.videoPublic()));
-		}
-		else if(userId.isEmpty() && !ownerId.isEmpty()) {
-			response.setData(videoService.listVideos(VideoPredicates.publicVideos(UUID.fromString(ownerId))));
-		}
-		else {
-			response.setData(videoService.ListVideosWithPrivacy(userId, ownerId));
-		}
-		
 
-		
+		if (userId.isEmpty() && ownerId.isEmpty()) {
+			response.setData(category == null ? videoService.listVideos(VideoPredicates.videoPublic())
+					: videoService.listVideos(VideoPredicates.videoPublicAndCategory(category)));
+		} else if (userId.isEmpty() && !ownerId.isEmpty()) {
+			response.setData(category == null
+					? videoService.listVideos(VideoPredicates.publicVideos(UUID.fromString(ownerId)))
+					: videoService.listVideos(
+							VideoPredicates.videoCategoryEqualsAndOwnerIdEquals(UUID.fromString(ownerId), category)));
+		} else {
+			response.setData(videoService.ListVideosWithPrivacy(userId, ownerId,category));
+		}
+
 		logger.debug("listing Videos from user: " + userId);
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
-	
 
 }

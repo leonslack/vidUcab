@@ -26,7 +26,7 @@ import com.ucab.restful.commons.enums.PrivacyType;
 
 @Entity
 @Table(name = "[Video]")
-@ApiObject(name = "Video", group = "User", stage = ApiStage.RC)
+@ApiObject(name = "Video", group = "Video", stage = ApiStage.RC)
 public class Video extends BaseModel{
 
 	@JsonIgnore

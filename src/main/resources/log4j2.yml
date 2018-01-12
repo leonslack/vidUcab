@@ -28,7 +28,7 @@ Configutation:
           max: 30
       - name: RollingFileFull_Appender
         fileName: ${log-path}/vidUcabFull.log
-        filePattern: "${log-path}/archive/vaFull.log.%d{yyyy-MM-dd-hh-mm}.gz"
+        filePattern: "${log-path}/archive/vid-ucabFull.log.%d{yyyy-MM-dd-hh-mm}.gz"
         PatternLayout:
           pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
         Policies:
@@ -48,7 +48,7 @@ Configutation:
             level: warn
 
       Logger:
-        - name: com.ucab.restul
+        - name: com.ucab.restful
           level: info
           AppenderRef:
           - ref: RollingFile_Appender

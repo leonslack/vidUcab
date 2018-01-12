@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.querydsl.core.types.Predicate;
+import com.ucab.restful.commons.enums.Category;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.data.model.Video;
 import com.ucab.restful.dto.request.CreateVideoRequest;
@@ -21,6 +22,6 @@ public interface IVideoService {
 	List<Video> listVideos(Predicate predicate) throws CustomBaseException;
 	
 	@Transactional(readOnly = true)
-	List<Video> ListVideosWithPrivacy(String userId, String ownerId) throws CustomBaseException;
+	List<Video> ListVideosWithPrivacy(String userId, String ownerId, Category category) throws CustomBaseException;
 
 }

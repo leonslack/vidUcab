@@ -17,7 +17,7 @@ import com.querydsl.core.annotations.QueryType;
 
 @Entity
 @Table(name = "[Privacy]")
-@ApiObject(name = "Privacy", group = "User", stage = ApiStage.RC)
+@ApiObject(name = "Privacy", group = "Video", stage = ApiStage.RC)
 public class Privacy extends BaseModel{
 
 	@JsonIgnore

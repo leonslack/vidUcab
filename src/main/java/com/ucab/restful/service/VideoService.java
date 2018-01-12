@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
+import com.ucab.restful.commons.enums.Category;
 import com.ucab.restful.commons.enums.PrivacyType;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.commons.exceptions.CustomDataBaseOperationException;
@@ -97,9 +98,9 @@ public class VideoService implements IVideoService {
 	}
 
 	@Override
-	public List<Video> ListVideosWithPrivacy(String userId, String ownerId) throws CustomBaseException {
+	public List<Video> ListVideosWithPrivacy(String userId, String ownerId, Category category) throws CustomBaseException {
 		try {
-			return privacyRepository.listVideosWithPrivacyLogic(userId, ownerId);
+			return privacyRepository.listVideosWithPrivacyLogic(userId, ownerId, category);
 		} catch (Exception e) {
 			log.error("Error while trying finding videos \n Error: " + e.getMessage());
 			throw new CustomDataBaseOperationException("Error while trying finding videos \n Error: " + e.getMessage());
