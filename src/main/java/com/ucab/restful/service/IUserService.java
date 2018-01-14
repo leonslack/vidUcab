@@ -11,12 +11,31 @@ import com.ucab.restful.dto.request.AuthRequest;
 
 public interface IUserService extends CRUDService<User>{
 	
+	/**
+	 * 
+	 * @param predicate
+	 * @return List of users filter by predicate
+	 * @throws CustomBaseException
+	 */
 	@Transactional(readOnly = true)
 	List<User> findAllUsers(Predicate predicate) throws CustomBaseException;
 	
+	/**
+	 * 
+	 * @param dto
+	 * @return user authenticated
+	 * @throws CustomBaseException
+	 */
 	@Transactional(readOnly = true)
-	User findOneByPredicate(AuthRequest dto) throws CustomBaseException;
+	User findToAuth(AuthRequest dto) throws CustomBaseException;
 	
+	
+	/**
+	 * 
+	 * @param updatedUser
+	 * @return Updated User
+	 * @throws CustomBaseException
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	User updateUser(User updatedUser) throws CustomBaseException;
 	

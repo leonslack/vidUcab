@@ -112,7 +112,7 @@ public class UserService  implements IUserService{
 	}
 
 	@Override
-	public User findOneByPredicate(AuthRequest dto) throws CustomBaseException {
+	public User findToAuth(AuthRequest dto) throws CustomBaseException {
 		User response;
 		try {
 			response = userRepository.findOne(UserPredicates.autheq(dto));

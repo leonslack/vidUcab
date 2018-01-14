@@ -45,7 +45,7 @@ public class AuthController extends CustomBaseController{
 		 
 		logger.info("Trying to authenticate user with nickname: " + authRequest.nickname);
 
-		response.setData(userService.findOneByPredicate(authRequest));
+		response.setData(userService.findToAuth(authRequest));
 		return ResponseEntity.ok(response);
 	}
 

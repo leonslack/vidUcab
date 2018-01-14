@@ -64,7 +64,7 @@ public class ApplicationTests {
 		
 		user.password="1234";
 		
-		service.findOneByPredicate(user);
+		service.findToAuth(user);
 		
 		when(repo.findOne(UserPredicates.autheq(user))).thenReturn(null);
 		

@@ -12,15 +12,41 @@ import com.ucab.restful.dto.request.CreateVideoRequest;
 
 public interface IVideoService {
 	
+	/**
+	 * 
+	 * @param videoResquest
+	 * @return created video
+	 * @throws CustomBaseException
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	Video createVideo(CreateVideoRequest videoResquest) throws CustomBaseException;
 	
+	/**
+	 * 
+	 * @param video
+	 * @return String with delete state
+	 * @throws CustomBaseException
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	String deleteVideo(Video video) throws CustomBaseException;
 	
+	/**
+	 * 
+	 * @param predicate
+	 * @return list of videos filter by predicate
+	 * @throws CustomBaseException
+	 */
 	@Transactional(readOnly = true)
 	List<Video> listVideos(Predicate predicate) throws CustomBaseException;
 	
+	/**
+	 * 
+	 * @param userId
+	 * @param ownerId
+	 * @param category
+	 * @return list of videos with privacy rules 
+	 * @throws CustomBaseException
+	 */
 	@Transactional(readOnly = true)
 	List<Video> ListVideosWithPrivacy(String userId, String ownerId, Category category) throws CustomBaseException;
 
