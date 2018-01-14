@@ -12,6 +12,7 @@ import com.querydsl.core.types.Predicate;
 import com.ucab.restful.commons.exceptions.CustomAlreadyExistsException;
 import com.ucab.restful.commons.exceptions.CustomBaseException;
 import com.ucab.restful.commons.exceptions.CustomDataBaseOperationException;
+import com.ucab.restful.commons.exceptions.CustomNotFoundException;
 import com.ucab.restful.data.model.Subscription;
 import com.ucab.restful.data.model.User;
 import com.ucab.restful.data.predicates.SubscriptionPredicates;
@@ -51,7 +52,8 @@ public class SubscriptionService implements ISubscriptionService {
 					"Error while trying save subscription users \n Error: " + e.getMessage());
 		}
 	}
-
+	
+	
 	private Subscription findByPredicate(Predicate predicate) throws CustomBaseException {
 		try {
 			return subscriptionRepository.findOne(predicate);
@@ -66,6 +68,10 @@ public class SubscriptionService implements ISubscriptionService {
 	public String deleteSubscription(Subscription subcription) throws CustomBaseException {
 		subcription = findByPredicate(
 				SubscriptionPredicates.usersIdEq(subcription.getOwner().getId(), subcription.getSubscriber().getId()));
+		if(subcription == null) {
+			throw new CustomNotFoundException("We can't found this subscription");
+		}
+		
 		try {
 			subscriptionRepository.delete(subcription);
 			return "Deleted";
