@@ -10,14 +10,14 @@ import com.ucab.restful.data.model.Subscription;
 import com.ucab.restful.data.model.User;
 
 public interface ISubscriptionService {
-	
-	@Transactional(readOnly=true)
+
+	@Transactional(readOnly = true)
 	List<User> getUserByRelation(UUID userId, Boolean subs) throws CustomBaseException;
-	
+
 	@Transactional(rollbackFor = Exception.class)
 	Subscription createSubscription(Subscription subscription) throws CustomBaseException;
-	
-	@Transactional(readOnly=true)
+
+	@Transactional(readOnly = true)
 	String deleteSubscription(Subscription subcription) throws CustomBaseException;
 
 }
